@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'sinatra/reloader'
+#require 'sinatra/reloader'
 require 'redis'
 require 'json'
 
@@ -19,7 +19,7 @@ post '/usuarios' do
 
   id = redis.incr('id_usuarios')
   user['id'] = id
-  headers 'Location' = "/usuarios/#{usuario['id']}"
+  headers 'Location' => "/usuarios/#{usuario['id']}"
   
   redis.hset('usuarios', id, JSON.dump(usuario))
 end 

@@ -33,6 +33,17 @@ get '/usuarios/:id' do
   resposta
 end
 
+get '/usuarios/:id/idade' do
+  content_type :json
+
+  id = params['id']
+  usuario_redis = redis.hget('usuarios', id)
+  halt(404, '{"mensagem": "usuario não encontrado"}') if usuario_redis.nil?
+  usuario = JSON.parse(usuario_redis)
+  
+  '{"idade": '+ AgeCalculator.calculate(usuario['nascimento']) + '}'
+end
+
 delete '/usuarios/:id' do
   id = params['id']
   redis.hdel('usuarios', id)
